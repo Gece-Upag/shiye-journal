@@ -1,0 +1,58 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# 代理工作目录（记忆与临时文件，不纳入版本控制）
+.workbuddy/
+
+# JVM 崩溃转储（Gradle daemon 偶发）
+hs_err_pid*.log
+replay_pid*.log
+
+# Kotlin 守护进程崩溃日志
+.kotlin/
+
+# ---------- 以下为准备公开仓库时补的规则 ----------
+
+# 安装包产物（要发布请走 GitHub Releases，不要提交进仓库）
+*.apk
+*.aab
+
+# 签名材料：一旦提交等于把应用私钥公开
+*.jks
+*.keystore
+*.p12
+*.pfx
+keystore.properties
+signing.properties
+
+# 密钥 / 本地环境变量
+.env
+.env.*
+secrets.properties
+
+# 本机专用脚本（写死了本机用户名与磁盘路径）
+fix_defender.bat
+
+# 其余日志（上面 hs_err / replay 已按名字忽略）
+*.log
+
+# AI 助手工作目录（记忆文件、验证截图等，构建不需要）
+.claude/
+.cursor/
+.aider*
+
+# 本机临时文件
+.dsh-*

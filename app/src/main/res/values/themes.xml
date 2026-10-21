@@ -1,0 +1,15 @@
+<resources>
+    <!--
+        本项目界面全部由 Jetpack Compose 绘制，此处只保留一个最简的窗口主题：
+        去掉 ActionBar，颜色由 Compose 的 Material3 主题接管（见 ui/theme 包）。
+
+        唯一有意义的一项是 android:windowBackground：
+        进程刚起来、Compose 还没画出第一帧之前，系统画的就是它。
+        不指定的话用的是父主题默认的灰白/深灰，跟 App 自己的纸色 #f7f6f2 对不上，
+        启动瞬间会闪一下不一样的颜色。填成同一个色值就接上了 ——
+        这是"感觉启动快"里最便宜的一笔。（深色版见 values-night/themes.xml）
+    -->
+    <style name="Theme.Shiye" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">#f7f6f2</item>
+    </style>
+</resources>

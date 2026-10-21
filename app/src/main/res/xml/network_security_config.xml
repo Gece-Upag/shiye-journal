@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    本地模型（Ollama / LM Studio）只提供 http 明文接口，不放行就连不上
+    （现象：CLEARTEXT communication ... not permitted by network security policy）。
+
+    规格边界（§8 / §9.3）这样守：
+    - 本 App 唯一的网络出口是 AI 功能，目标地址完全由用户自己配置；
+    - 放行明文影响的只是"用户自己填的那个地址"，云端 https 请求不受任何影响；
+    - 没有其它任何联网路径。
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

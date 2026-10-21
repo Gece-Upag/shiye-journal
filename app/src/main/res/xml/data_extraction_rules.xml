@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    规格 7.5：针对 Android 12+ 的云端备份与设备迁移分别配置提取规则。
+    这里排除数据库、SharedPreferences 与私有文件，云备份和设备换机迁移都不带走业务数据。
+    用户的备份路径只有一个：设置页里手动导出（Markdown 导出 / 完整备份 ZIP）。
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="external" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="external" path="." />
+    </device-transfer>
+</data-extraction-rules>

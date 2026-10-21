@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自适应图标的背景层：与图片圆角卡片的底色一致（make_icons.py 取色） -->
+<resources>
+    <color name="ic_launcher_bg">#FDF9EE</color>
+</resources>

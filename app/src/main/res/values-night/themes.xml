@@ -1,0 +1,9 @@
+<resources>
+    <!--
+        夜间窗口主题，实际配色同样由 Compose 的 Material3 主题接管。
+        windowBackground 填成 App 的深色底 #171a17，理由见 values/themes.xml。
+    -->
+    <style name="Theme.Shiye" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#171a17</item>
+    </style>
+</resources>

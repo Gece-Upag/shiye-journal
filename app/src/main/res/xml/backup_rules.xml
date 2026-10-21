@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    规格 7.5：关闭不需要的 Android Auto Backup 与设备迁移备份能力。
+    Manifest 中已设置 android:allowBackup="false"，此处进一步排除所有业务数据，
+    即便系统策略变化也不会把日记/记账/灵感数据复制到云端或新设备。
+-->
+<full-backup-content>
+    <exclude domain="database" path="." />
+    <exclude domain="sharedpref" path="." />
+    <exclude domain="file" path="." />
+    <exclude domain="external" path="." />
+</full-backup-content>

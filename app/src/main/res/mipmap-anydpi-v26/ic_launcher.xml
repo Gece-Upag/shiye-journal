@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    自适应图标（API 26+，minSdk 26 所以所有设备都走这里）：
+    背景层取自图片圆角卡片的米色，前景是整张图。
+    各启动器遮罩形状不同（圆 / 圆角方 / 水滴…），所以书本主体
+    必须落在中间 66dp 安全区内 —— 前景图按这个标准生成。
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_bg" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

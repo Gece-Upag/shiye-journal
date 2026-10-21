@@ -1,0 +1,79 @@
+[versions]
+# 构建工具链：AGP 9.1.1 + Gradle 9.3.1（见 gradle/wrapper/gradle-wrapper.properties）+ JDK 21（见 gradle/gradle-daemon-jvm.properties）
+agp = "9.1.1"
+# 关于 Kotlin / KSP 版本（重要，改动前请先读这段）
+# ------------------------------------------------------------------
+# 1. AGP 9 内置 Kotlin 支持，不能再显式应用 org.jetbrains.kotlin.android 插件，
+#    否则报 "plugin is already on the classpath with an unknown version"。
+# 2. AGP 9.1.1 内置的是 KGP 2.2.10（官方说明：低于 2.2.10 会被自动升到 2.2.10）。
+#    但 KSP 2.2.10-2.0.2 仍用旧的 kotlin.sourceSets DSL 注册生成源码，与内置 Kotlin 冲突，
+#    构建会直接失败：
+#      "Using kotlin.sourceSets DSL to add Kotlin sources is not allowed with built-in Kotlin"
+# 3. 官方给的两条路：① 加 android.disallowKotlinSourceSets=false 抑制（治标，AGP 10 会移除）；
+#    ② 升级到 KSP 2.3.6+，它已改用 android.sourceSets（治本）。
+#    本项目选 ②：Kotlin 2.3.10 + KSP 2.3.6，通过根工程 build.gradle.kts 的
+#    buildscript classpath 覆盖 AGP 内置版本（官方说明的升级方式）。
+# 4. 因此下面两个版本号只作记录与对照，**不是**依赖解析的来源；
+#    真正生效的版本写在根工程 build.gradle.kts 的 buildscript 里，改版本时两处要同步。
+#    校验命令：./gradlew buildEnvironment | grep -E "kotlin-gradle-plugin|symbol-processing"
+# ------------------------------------------------------------------
+kotlin = "2.3.10"
+ksp = "2.3.6"
+
+coreKtx = "1.17.0"
+composeBom = "2026.09.00"
+activityCompose = "1.13.0"
+lifecycle = "2.11.0"
+room = "2.8.5"
+serialization = "1.9.0"
+# 仅测试用：runTest / TestDispatcher，用来测自动保存队列的防抖与串行行为
+coroutines = "1.10.2"
+
+# V2 的 AI 网络请求（规格 §2.1 指定）。不引第三方 AI SDK，只用 HTTP 客户端
+okhttp = "4.12.0"
+# Keystore 保护的偏好存储，用来存 API Key（规格 §8.1）
+securityCrypto = "1.1.0-alpha06"
+
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+
+# Compose：版本统一由 BOM 管理，因此以下依赖不写版本号
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+
+com-squareup-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
+
+# 测试依赖
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+# 不包含 org.jetbrains.kotlin.android：AGP 9 内置 Kotlin，显式声明会冲突。
+# 下面三个插件不写版本，版本由根工程 build.gradle.kts 的 buildscript classpath 提供，
+# 以保证 Compose 编译器 / KSP 与 AGP 实际使用的 Kotlin 完全同版本（详见本文件顶部说明）。
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization" }
+ksp = { id = "com.google.devtools.ksp" }
